@@ -1,4 +1,5 @@
 import subprocess
+import ast
 output=subprocess.run(["python","test_programm.py"],capture_output=True,text=True)
 print(output.stderr)
 print(output.stdout)
@@ -30,6 +31,19 @@ for line in lines:
 
 if eroor_type=="TypeError":
     print("an eroor was performed with incompatible data type")
+
+    f=open("test_programm.py",'r')
+    source=f.read()
+    tree=ast.parse(source)
+    print(ast.dump(tree))
+    f.close()
+
+    for node in ast.walk(tree):
+        if isinstance(node,ast.Assign):
+            print("found a assignment")
+            print(type(node))
+            print(node.targets)
+
 
 
 
